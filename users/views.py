@@ -5,22 +5,58 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework import serializers
-
-class RegisterSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['username', 'password', 'email']
-
-    def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
-        return user
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import RegisterSerializer
+from django.contrib.auth.models import User  # Asumiendo que usas el modelo User para los usuarios
 
 class RegisterView(APIView):
     def post(self, request):
+        # Obtener el username de la petición
+        username = request.data.get('username')
+
+        # Verificar si el usuario ya existe
+        if User.objects.filter(username=username).exists():
+            return Response(
+                {'message': 'El usuario ya está registrado. Por favor, inicia sesión.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Si el usuario no existe, proceder con el registro
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)
+            return Response(
+                {'message': 'Usuario creado exitosamente'},
+                status=status.HTTP_201_CREATED
+            )
+
+        # Si el serializer no es válido, devolver los errores
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class RegisterView(APIView):
+    def post(self, request):
+        # Obtener el username de la petición
+        username = request.data.get('username')
+
+        # Verificar si el usuario ya existe
+        if User.objects.filter(username=username).exists():
+            return Response(
+                {'message': 'El usuario ya está registrado. Por favor, inicia sesión.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Si el usuario no existe, proceder con el registro
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response(
+                {'message': 'Usuario creado exitosamente'},
+                status=status.HTTP_201_CREATED
+            )
+
+        # Si el serializer no es válido, devolver los errores
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):

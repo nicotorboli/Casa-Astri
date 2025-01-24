@@ -21,10 +21,16 @@ const Register = () => {
       });
 
       if (response.status === 201) {
-        navigate("/login");  // Redirige a login si el registro es exitoso
+        // Si el registro es exitoso, redirige al login
+        navigate("/login");  
       }
     } catch (error) {
-      setError("Error al registrar: " + error.response?.data?.message || "Error desconocido");
+      // Aquí capturamos el error si el usuario ya está registrado
+      if (error.response?.status === 400 && error.response?.data?.message === 'Usuario ya registrado') {
+        setError("El usuario ya está registrado. Por favor, inicia sesión.");
+      } else {
+        setError("Error al registrar: " + (error.response?.data?.message || "Error desconocido"));
+      }
     }
   };
 
@@ -58,4 +64,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Register
