@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../contexts/AuthContext";
 
 const Login = () => {
+  const { login } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);  // Para mostrar un estado de carga
   const navigate = useNavigate();
+  
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +25,9 @@ const Login = () => {
 
       if (response.status === 200) {
         // Almacenamos el token en el localStorage (si lo estás usando)
-        localStorage.setItem("access_token", response.data.access);
+                // Usa la función login del contexto para almacenar el token
+        login(response.data.access);
+
 
         // Redirige a la página de Home
         navigate("/");
