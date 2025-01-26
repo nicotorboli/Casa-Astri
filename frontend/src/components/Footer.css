@@ -1,7 +1,12 @@
 footer {
-    width: 100%;
-    padding: 10px 0;
-    background-color: #333;
+    background-color: #333; /* Fondo oscuro */
     color: white;
     text-align: center;
+    padding: 10px 0;
+    border-top: 2px solid #555; /* Línea superior */
+    margin-top: auto; /* Asegura que esté al final de la página */
+  }
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
   }

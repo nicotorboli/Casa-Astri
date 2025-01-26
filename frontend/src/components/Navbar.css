@@ -1,47 +1,41 @@
 .navbar {
-    position: fixed; /* Fijo en la parte superior */
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%; /* Ocupar todo el ancho */
-    height: 60px; /* Altura del navbar */
-    background-color: #333; /* Color de fondo */
-    color: white; /* Texto blanco */
+    width: 100%;
+    height: 60px; /* Ajusta según el diseño */
+    background-color: #333; /* Color de fondo del navbar */
+    color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
-    z-index: 1000; /* Asegura que esté sobre otros elementos */
+    padding: 0 20px; /* Espaciado interno */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+    z-index: 1000; /* Asegura que esté encima del contenido */
+    box-sizing: border-box;
   }
   
   .navbar-brand h1 {
-    margin: 0;
-    font-size: 24px;
+    font-size: 1.5rem;
+    color: white;
   }
   
   .navbar-links {
     display: flex;
-    gap: 10px; /* Espaciado entre botones/enlaces */
+    gap: 10px;
   }
   
-  .btn {
+  .navbar-links .btn {
+    background-color: #555;
     color: white;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    display: inline-block;
-  }
-  
-  .login-btn {
-    background-color: #007bff;
-  }
-  
-  .register-btn {
-    background-color: #28a745;
-  }
-  
-  .logout-btn {
-    background-color: #dc3545;
+    padding: 8px 15px;
     border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
     cursor: pointer;
+  }
+  
+  .navbar-links .btn:hover {
+    background-color: #777;
   }
