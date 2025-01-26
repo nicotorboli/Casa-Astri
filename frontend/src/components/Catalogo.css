@@ -1,0 +1,91 @@
+.catalogo-container {
+  width: 100%; /* Ocupar todo el ancho disponible */
+  max-width: 100%; /* Previene que haya un límite */
+  min-height: calc(100vh - 150px); /* Ocupa todo el espacio entre el navbar y el footer */
+  display: flex;
+  flex-direction: column;
+  background-color: #124546; /* Fondo blanco para el catálogo */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para resaltar */
+  border-radius: 10px; /* Bordes redondeados */
+  border-radius: 10px; /* Bordes redondeados */
+  margin: 0; /* Ajusta según lo necesario */
+  padding: 0; /* Opcional, según diseño */  
+  overflow: hidden; /* Evitar contenido sobresaliente */
+}
+  
+/* Filtros */
+.catalogo-filtros {
+    width: 100%; /* Ocupar todo el ancho disponible */
+    flex: 2;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px;
+    background-color: #124546; /* Fondo gris claro para la barra de filtros */
+    border-bottom: 1px solid #ddd; /* Línea divisoria */
+  }
+  
+  .filtro-select,
+  .filtro-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 40%;
+  }
+  
+/* Productos */
+.catalogo-productos {
+    flex: 7;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    background-color: #124546; /* Fondo gris claro */
+    overflow-y: auto; /* Scroll si los productos son muchos */
+    padding: 20px; /* Espaciado interno uniforme */
+    width: 100%; /* Asegurar ancho completo */
+  }
+  
+  
+  .producto-card {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+
+/* Paginación */
+.catalogo-paginacion {
+    width: 100%; /* Ocupar todo el ancho disponible */
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #124546; /* Fondo gris claro */
+    border-top: 1px solid #ddd; /* Línea divisoria */
+    padding: 10px;
+  }
+  
+  .paginacion-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 10px;
+  }
+  
+  .paginacion-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .paginacion-pagina {
+    font-size: 18px;
+    margin: 0 10px;
+  }

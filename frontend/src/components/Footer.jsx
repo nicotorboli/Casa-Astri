@@ -1,16 +1,9 @@
 import React from 'react';
+import './Footer.css'
 
 const Footer = () => {
   return (
-    <footer style={{
-      backgroundColor: '#333',
-      color: 'white',
-      textAlign: 'center',
-      padding: '10px 0',
-      position: 'relative',
-      bottom: '0',
-      width: '100%'
-    }}>
+    <footer >
       <p>&copy; 2025 Casa Astri. Todos los derechos reservados.</p>
     </footer>
   );

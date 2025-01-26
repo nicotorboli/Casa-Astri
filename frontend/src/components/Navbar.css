@@ -1,0 +1,47 @@
+.navbar {
+    position: fixed; /* Fijo en la parte superior */
+    top: 0;
+    left: 0;
+    width: 100%; /* Ocupar todo el ancho */
+    height: 60px; /* Altura del navbar */
+    background-color: #333; /* Color de fondo */
+    color: white; /* Texto blanco */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
+    z-index: 1000; /* Asegura que esté sobre otros elementos */
+  }
+  
+  .navbar-brand h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .navbar-links {
+    display: flex;
+    gap: 10px; /* Espaciado entre botones/enlaces */
+  }
+  
+  .btn {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: inline-block;
+  }
+  
+  .login-btn {
+    background-color: #007bff;
+  }
+  
+  .register-btn {
+    background-color: #28a745;
+  }
+  
+  .logout-btn {
+    background-color: #dc3545;
+    border: none;
+    cursor: pointer;
+  }
