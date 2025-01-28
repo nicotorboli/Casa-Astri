@@ -3,6 +3,7 @@ import Axios from 'axios';
 import './Catalogo.css';
 
 const Catalogo = () => {
+  const [totalPaginas, setTotalPaginas] = useState(1);
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
@@ -11,19 +12,23 @@ const Catalogo = () => {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('Cargando productos...');
 
+  // Fetch de productos
   useEffect(() => {
     const fetchProductos = async () => {
       try {
         setLoading(true);
-        const response = await Axios.get(
-          `http://localhost:8000/api/productos/?page=${pagina}&categoria=${categoriaSeleccionada}&nombre=${nombreProducto}`
-        );
+        setMessage('Cargando productos...');
+        const params = {};
+        if (pagina) params.page = pagina;
+        if (categoriaSeleccionada) params.categoria = categoriaSeleccionada;
+        if (nombreProducto) params.search = nombreProducto; // Cambiado de nombre a search
+
+        const response = await Axios.get(`http://localhost:8000/api/productos/`, {
+          params,
+        });
         setProductos(response.data.results);
-        setMessage(
-          response.data.results.length === 0
-            ? 'No hay productos que coincidan con los filtros.'
-            : ''
-        );
+        setTotalPaginas(response.data.total_pages || 1);
+        setMessage(response.data.results.length === 0 ? 'No hay productos que coincidan con los filtros.' : '');
       } catch (error) {
         console.error('Error al cargar productos:', error);
         setMessage('Hubo un error al cargar los productos.');
@@ -35,11 +40,12 @@ const Catalogo = () => {
     fetchProductos();
   }, [pagina, categoriaSeleccionada, nombreProducto]);
 
+  // Fetch de categorías
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
         const response = await Axios.get('http://localhost:8000/api/categorias/');
-        setCategorias(response.data);
+        setCategorias(response.data || []); // Manejo de datos vacíos
       } catch (error) {
         console.error('Error al cargar categorías:', error);
       }
@@ -48,8 +54,11 @@ const Catalogo = () => {
     fetchCategorias();
   }, []);
 
+  // Cambiar página
   const cambiarPagina = (paginaNueva) => {
-    setPagina(paginaNueva);
+    if (paginaNueva >= 1 && paginaNueva <= totalPaginas) {
+      setPagina(paginaNueva);
+    }
   };
 
   return (
@@ -63,7 +72,7 @@ const Catalogo = () => {
         >
           <option value="">Todas las categorías</option>
           {categorias.map((categoria) => (
-            <option key={categoria.id} value={categoria.nombre}>
+            <option key={categoria.id} value={categoria.id}>
               {categoria.nombre}
             </option>
           ))}
@@ -103,9 +112,10 @@ const Catalogo = () => {
         >
           Anterior
         </button>
-        <span className="paginacion-pagina">Página {pagina}</span>
+        <span className="paginacion-pagina">Página {pagina} de {totalPaginas}</span>
         <button
           onClick={() => cambiarPagina(pagina + 1)}
+          disabled={pagina === totalPaginas}
           className="paginacion-btn"
         >
           Siguiente
