@@ -6,7 +6,7 @@ from .serializers import ProductoSerializer, CategoriaSerializer
 
 
 class ProductoPagination(PageNumberPagination):
-    page_size = 10  # Puedes cambiar este valor según lo que necesites
+    page_size = 4  # Puedes cambiar este valor según lo que necesites
 
  # Permite filtrar por nombre de producto y categoría
 # Create your views here.
@@ -17,7 +17,7 @@ class ProductoListView(generics.ListAPIView):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]  # Agrega filtros y búsqueda
     filterset_fields = ['categoria']  # Permite filtrar por categoría
     search_fields = ['nombre']  # Permite búsqueda por nombre
-    
+
 class CategoriaListView(generics.ListAPIView):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
