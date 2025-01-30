@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
-import './Catalogo.css';
+import Filtros from './Filtros';
+import Paginacion from './Paginacion';
+import ProductoCard from './ProductoCard';
+import '../styles/Catalogo.css';
 
 const Catalogo = () => {
   const [totalPaginas, setTotalPaginas] = useState(1);
@@ -19,13 +22,17 @@ const Catalogo = () => {
         setLoading(true);
         setMessage('Cargando productos...');
         const params = {};
-        if (pagina) params.page = pagina;
-        if (categoriaSeleccionada) params.categoria = categoriaSeleccionada;
-        if (nombreProducto) params.search = nombreProducto; // Cambiado de nombre a search
 
-        const response = await Axios.get(`http://localhost:8000/api/productos/`, {
-          params,
-        });
+        // Filtrar por página
+        if (pagina) params.page = pagina;
+
+        // Filtrar por categoría si está seleccionada
+        if (categoriaSeleccionada) params.categoria = categoriaSeleccionada;
+
+        // Filtrar por nombre de producto si se ha ingresado
+        if (nombreProducto) params.search = nombreProducto.toLowerCase(); // Cambiado de nombre a search
+
+        const response = await Axios.get("http://localhost:8000/api/productos/", { params });
         setProductos(response.data.results);
         setTotalPaginas(response.data.total_pages || 1);
         setMessage(response.data.results.length === 0 ? 'No hay productos que coincidan con los filtros.' : '');
@@ -54,37 +61,16 @@ const Catalogo = () => {
     fetchCategorias();
   }, []);
 
-  // Cambiar página
-  const cambiarPagina = (paginaNueva) => {
-    if (paginaNueva >= 1 && paginaNueva <= totalPaginas) {
-      setPagina(paginaNueva);
-    }
-  };
-
   return (
     <div className="catalogo-container">
       {/* Filtros */}
-      <div className="catalogo-filtros">
-        <select
-          value={categoriaSeleccionada}
-          onChange={(e) => setCategoriaSeleccionada(e.target.value)}
-          className="filtro-select"
-        >
-          <option value="">Todas las categorías</option>
-          {categorias.map((categoria) => (
-            <option key={categoria.id} value={categoria.id}>
-              {categoria.nombre}
-            </option>
-          ))}
-        </select>
-        <input
-          type="text"
-          placeholder="Buscar por nombre..."
-          value={nombreProducto}
-          onChange={(e) => setNombreProducto(e.target.value)}
-          className="filtro-input"
-        />
-      </div>
+      <Filtros
+        categorias={categorias}
+        categoriaSeleccionada={categoriaSeleccionada}
+        setCategoriaSeleccionada={setCategoriaSeleccionada}
+        nombreProducto={nombreProducto}
+        setNombreProducto={setNombreProducto}
+      />
 
       {/* Productos */}
       <div className="catalogo-productos">
@@ -92,11 +78,7 @@ const Catalogo = () => {
           <p>{message}</p>
         ) : productos.length > 0 ? (
           productos.map((producto) => (
-            <div key={producto.id} className="producto-card">
-              <h3>{producto.nombre}</h3>
-              <p>Categoría: {producto.categoria.nombre}</p>
-              <p>Precio: ${producto.precio}</p>
-            </div>
+            <ProductoCard key={producto.id} producto={producto} />
           ))
         ) : (
           <p>{message}</p>
@@ -104,23 +86,11 @@ const Catalogo = () => {
       </div>
 
       {/* Paginación */}
-      <div className="catalogo-paginacion">
-        <button
-          onClick={() => cambiarPagina(pagina - 1)}
-          disabled={pagina === 1}
-          className="paginacion-btn"
-        >
-          Anterior
-        </button>
-        <span className="paginacion-pagina">Página {pagina} de {totalPaginas}</span>
-        <button
-          onClick={() => cambiarPagina(pagina + 1)}
-          disabled={pagina === totalPaginas}
-          className="paginacion-btn"
-        >
-          Siguiente
-        </button>
-      </div>
+      <Paginacion
+        pagina={pagina}
+        totalPaginas={totalPaginas}
+        setPagina={setPagina}
+      />
     </div>
   );
 };

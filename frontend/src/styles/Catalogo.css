@@ -1,0 +1,132 @@
+/* Contenedor principal */
+.catalogo-container {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  background-color: #fff; /* Fondo blanco limpio */
+  margin-top: 0px;
+  flex-grow: 1; 
+  width: 100%;
+  max-width: 1200px; /* Limita el ancho para mayor control */
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 12px; /* Bordes sutilmente redondeados */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Sombra sutil para profundidad */
+}
+
+/* Contenedor de filtros */
+.catalogo-filtros {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: nowrap;
+}
+
+/* Filtro de categorías */
+.filtros-categorias {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Filtro de búsqueda */
+.filtros-busqueda {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Estilos generales para los filtros */
+.filtro-select,
+.filtro-input {
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #fff;
+  width: 250px;
+  max-width: 100%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.filtro-select:focus,
+.filtro-input:focus {
+  border-color: #c62828; /* Rojo suave para el foco */
+  box-shadow: 0 0 8px rgba(198, 40, 40, 0.3); /* Resalte sutil en rojo */
+  outline: none;
+}
+
+/* Contenedor de productos */
+.catalogo-productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+  flex-grow: 1;
+  padding-top: 20px;
+}
+
+/* Estilo de tarjeta de producto */
+.producto-card {
+  background-color: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Sombra suave */
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.producto-card:hover {
+  transform: translateY(-6px); /* Efecto de elevación sutil */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* Sombra más fuerte en hover */
+}
+
+/* Paginación */
+.catalogo-paginacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.paginacion-btn {
+  padding: 12px 24px;
+  background-color: #c62828; /* Rojo más suave */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.paginacion-btn:hover {
+  background-color: #b71c1c; /* Rojo más oscuro al pasar el mouse */
+}
+
+.paginacion-btn:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+.paginacion-pagina {
+  font-weight: bold;
+  color: #c62828; /* Rojo suave */
+  font-size: 1.2rem;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .catalogo-filtros {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .catalogo-productos {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
