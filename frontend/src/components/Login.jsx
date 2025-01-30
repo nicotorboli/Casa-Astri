@@ -18,7 +18,7 @@ const Login = () => {
     setLoading(true);  // Activa el estado de carga
 
     try {
-      const response = await axios.post("http://localhost:8000/api/login/", {
+      const response = await axios.post("http://localhost:8000/api/users/login/", {
         username,
         password,
       });

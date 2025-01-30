@@ -32,7 +32,7 @@ const Catalogo = () => {
         // Filtrar por nombre de producto si se ha ingresado
         if (nombreProducto) params.search = nombreProducto.toLowerCase(); // Cambiado de nombre a search
 
-        const response = await Axios.get("http://localhost:8000/api/productos/", { params });
+        const response = await Axios.get("http://localhost:8000/api/catalogo/productos/", { params });
         setProductos(response.data.results);
         setTotalPaginas(response.data.total_pages || 1);
         setMessage(response.data.results.length === 0 ? 'No hay productos que coincidan con los filtros.' : '');
@@ -51,7 +51,7 @@ const Catalogo = () => {
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
-        const response = await Axios.get('http://localhost:8000/api/categorias/');
+        const response = await Axios.get('http://localhost:8000/api/catalogo/categorias/');
         setCategorias(response.data || []); // Manejo de datos vacíos
       } catch (error) {
         console.error('Error al cargar categorías:', error);

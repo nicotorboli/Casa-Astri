@@ -19,6 +19,6 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('users.urls')),  # Asegúrate de incluir las rutas de la app 'users'
-    path('api/', include('catalogo.urls')),
+    path('api/users/', include('users.urls')),  # URLs de la app 'users' (registro, login, JWT)
+    path('api/catalogo/', include('catalogo.urls')),  # URLs de la app 'catalogo' (productos, carrito, etc.)
 ]
