@@ -4,8 +4,9 @@ from rest_framework.response import Response
 from rest_framework import status, generics, permissions
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
-from .serializers import RegisterSerializer,PerfilSerializer
+from .serializers import RegisterSerializer,UserSerializer
 from .models import Perfil
+from rest_framework.permissions import IsAuthenticated
 
 # Vista de registro de usuario
 class RegisterView(APIView):
@@ -52,11 +53,10 @@ class LoginView(APIView):
 
 
 
-class PerfilView(generics.RetrieveUpdateAPIView):
-    serializer_class = PerfilSerializer
-    permission_classes = [permissions.IsAuthenticated]
+class UserProfileView(APIView):
+    permission_classes = [IsAuthenticated]
 
-    def get_object(self):
-        # Obtiene o crea un perfil para el usuario autenticado
-        perfil, created = Perfil.objects.get_or_create(usuario=self.request.user)
-        return perfil
+    def get(self, request):
+        user = request.user
+        serializer = UserSerializer(user)
+        return Response(serializer.data)

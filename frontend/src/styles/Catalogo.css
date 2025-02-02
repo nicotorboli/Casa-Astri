@@ -2,7 +2,7 @@
 .catalogo-container {
   display: flex;
   flex-direction: column;
-  padding: 40px;
+  padding: 0px;
   background-color: #fff; /* Fondo blanco limpio */
   margin-top: 0px;
   flex-grow: 1; 

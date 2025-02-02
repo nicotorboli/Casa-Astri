@@ -19,7 +19,7 @@ html, body {
 
 .content {
   flex-grow: 1; /* Permite que el contenido crezca si es necesario */
-  padding: 0px; /* Espaciado interno */
+  padding: 40px; /* Espaciado interno */
   display: flex; /* O usa grid si prefieres */
   flex-direction: column; /* Asegura que los hijos estén en una columna */
 }

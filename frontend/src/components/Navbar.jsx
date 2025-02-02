@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import '../styles/Navbar.css'; // Importa el CSS específico para el Navbar
+import '../styles/Navbar.css';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -22,9 +22,14 @@ const Navbar = () => {
             </Link>
           </>
         ) : (
-          <button onClick={logout} className="btn logout-btn">
-            Logout
-          </button>
+          <>
+            <Link to="/profile" className="btn profile-btn">
+              Mi Perfil
+            </Link>
+            <button onClick={logout} className="btn logout-btn">
+              Logout
+            </button>
+          </>
         )}
       </div>
     </nav>

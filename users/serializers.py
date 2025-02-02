@@ -16,7 +16,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         return user
 
-class PerfilSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Perfil
-        fields = ['direccion', 'telefono', 'fecha_nacimiento']
+        model = User
+        fields = ['id', 'username', 'email', 'first_name', 'last_name']
