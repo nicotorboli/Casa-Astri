@@ -42,9 +42,8 @@ class CategoriaListView(generics.ListAPIView):
 
 
 
-
 class CarritoView(APIView):
-    permission_classes = [IsAuthenticated]  # Verifica que el usuario esté autenticado
+    permission_classes = [IsAuthenticated]  # Solo usuarios autenticados
 
     def get(self, request):
         try:
@@ -56,7 +55,7 @@ class CarritoView(APIView):
 
 
 class AddToCarritoView(APIView):
-    permission_classes = [IsAuthenticated]  # Verifica que el usuario esté autenticado
+    permission_classes = [IsAuthenticated]  # Solo usuarios autenticados
 
     def post(self, request):
         producto_id = request.data.get('producto_id')
@@ -81,8 +80,9 @@ class AddToCarritoView(APIView):
         except Producto.DoesNotExist:
             return Response({"message": "Producto no encontrado."}, status=status.HTTP_404_NOT_FOUND)
 
+
 class RemoveFromCarritoView(APIView):
-    permission_classes = [IsAuthenticated]  # Verifica que el usuario esté autenticado
+    permission_classes = [IsAuthenticated]  # Solo usuarios autenticados
 
     def delete(self, request, item_id):
         try:
@@ -90,4 +90,4 @@ class RemoveFromCarritoView(APIView):
             item.delete()
             return Response({"message": "Producto eliminado del carrito"}, status=status.HTTP_200_OK)
         except ItemCarrito.DoesNotExist:
-            return Response({"message": "El producto no se encuentra en tu carrito."}, status=status.HTTP_404_NOT_FOUND)        
+            return Response({"message": "El producto no se encuentra en tu carrito."}, status=status.HTTP_404_NOT_FOUND)
