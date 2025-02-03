@@ -19,11 +19,15 @@ class Producto(models.Model):
 
 
 class Carrito(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    productos = models.ManyToManyField(Producto, through='ItemCarrito', related_name='carritos')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    session_key = models.CharField(max_length=40, null=True, blank=True)
+    productos = models.ManyToManyField('Producto', through='ItemCarrito', related_name='carritos')
 
     def __str__(self):
-        return f"Carrito de {self.user.username}"
+        if self.user:
+            return f"Carrito de {self.user.username}"
+        else:
+            return f"Carrito temporal (sesión: {self.session_key})"
 
 
 class ItemCarrito(models.Model):

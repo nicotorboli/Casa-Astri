@@ -1,22 +1,73 @@
+/* Estilos generales para la vista de perfil */
 .profile-container {
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 1200px;
+    margin: 80px auto; /* Espacio superior para evitar que se superponga con un navbar fijo */
     padding: 20px;
+    background-color: #ffffff; /* Fondo blanco para un look limpio */
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
   
-  .user-info, .user-carrito, .user-historial {
+  /* Título principal */
+  .profile-container h2 {
+    text-align: center;
+    color: #123456; /* Color temático principal */
     margin-bottom: 30px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
   }
   
-  .user-info h3, .user-carrito h3, .user-historial h3 {
-    margin-bottom: 15px;
-    color: #333;
+  /* Sección de información personal */
+  .user-info {
+    margin-bottom: 40px;
+    padding: 10px;
+    border-bottom: 2px solid #e0e0e0;
+  }
+  
+  .user-info h3 {
+    margin-bottom: 10px;
+    color: #123456;
+    font-size: 1.5rem;
+    border-bottom: 2px solid #123456;
+    display: inline-block;
+    padding-bottom: 5px;
   }
   
   .user-info p {
+    font-size: 1.1rem;
+    color: #333;
     margin: 5px 0;
+  }
+  
+  /* Sección del carrito de compras */
+  .user-carrito {
+    margin-bottom: 40px;
+    padding: 10px;
+  }
+  
+  .user-carrito h3 {
+    margin-bottom: 10px;
+    color: #123456;
+    font-size: 1.5rem;
+    border-bottom: 2px solid #123456;
+    display: inline-block;
+    padding-bottom: 5px;
+  }
+  
+  /* Sección del historial de compras */
+  .user-historial {
+    margin-bottom: 40px;
+    padding: 10px;
+  }
+  
+  .user-historial h3 {
+    margin-bottom: 10px;
+    color: #123456;
+    font-size: 1.5rem;
+    border-bottom: 2px solid #123456;
+    display: inline-block;
+    padding-bottom: 5px;
+  }
+  
+  .user-historial p {
+    font-size: 1.1rem;
+    color: #666;
   }

@@ -26,4 +26,4 @@ class CarritoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Carrito
-        fields = ['user', 'items']
+        fields = ['user', 'session_key', 'items']

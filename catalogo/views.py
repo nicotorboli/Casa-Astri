@@ -43,27 +43,34 @@ class CategoriaListView(generics.ListAPIView):
 
 
 class CarritoView(APIView):
-    permission_classes = [IsAuthenticated]  # Solo usuarios autenticados
-
     def get(self, request):
-        try:
-            carrito = Carrito.objects.get(user=request.user)
-            serializer = CarritoSerializer(carrito)
-            return Response(serializer.data)
-        except Carrito.DoesNotExist:
-            return Response({"message": "No tienes un carrito aún."}, status=status.HTTP_404_NOT_FOUND)
-
+        if request.user.is_authenticated:
+            carrito, created = Carrito.objects.get_or_create(user=request.user)
+        else:
+            session_key = request.session.session_key
+            if not session_key:
+                request.session.save()
+                session_key = request.session.session_key
+            carrito, created = Carrito.objects.get_or_create(session_key=session_key, user=None)
+        
+        serializer = CarritoSerializer(carrito)
+        return Response(serializer.data)
 
 class AddToCarritoView(APIView):
-    permission_classes = [IsAuthenticated]  # Solo usuarios autenticados
-
     def post(self, request):
         producto_id = request.data.get('producto_id')
         cantidad = request.data.get('cantidad', 1)
 
         try:
             producto = Producto.objects.get(id=producto_id)
-            carrito, created = Carrito.objects.get_or_create(user=request.user)
+            if request.user.is_authenticated:
+                carrito, created = Carrito.objects.get_or_create(user=request.user)
+            else:
+                session_key = request.session.session_key
+                if not session_key:
+                    request.session.save()
+                    session_key = request.session.session_key
+                carrito, created = Carrito.objects.get_or_create(session_key=session_key, user=None)
 
             item, created = ItemCarrito.objects.get_or_create(
                 carrito=carrito,

@@ -5,10 +5,19 @@ import '../styles/Catalogo.css';
 import { useAuth } from '../contexts/AuthContext';
 import axios from 'axios';
 
+import { useNavigate } from 'react-router-dom';
+
 const ProductoCard = ({ producto }) => {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const handleAddToCart = async () => {
+    if (!user) {
+      alert('Debes iniciar sesión para añadir productos al carrito.');
+      navigate('/login'); // Redirigir al login
+      return;
+    }
+
     try {
       const response = await axios.post(
         'http://localhost:8000/api/catalogo/carrito/add/',
@@ -34,11 +43,9 @@ const ProductoCard = ({ producto }) => {
       <h3>{producto.nombre}</h3>
       <p>Categoría: {producto.categoria.nombre}</p>
       <p>Precio: ${producto.precio}</p>
-      {user && (
-        <button onClick={handleAddToCart} className="add-to-cart-btn">
-          Añadir al carrito
-        </button>
-      )}
+      <button onClick={handleAddToCart} className="add-to-cart-btn">
+        Añadir al carrito
+      </button>
     </div>
   );
 };

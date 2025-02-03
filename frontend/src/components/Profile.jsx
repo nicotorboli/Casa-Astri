@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
-import Carrito from './Carrito'; // Importa el componente del carrito
+import Navbar from './Navbar'; // Asegúrate de que el componente Navbar esté correctamente implementado
+import Carrito from './Carrito'; 
 import '../styles/Profile.css';
 
 const Profile = () => {
@@ -39,29 +40,32 @@ const Profile = () => {
   }
 
   return (
-    <div className="profile-container">
-      <h2>Mi Perfil</h2>
+    <>
+      <Navbar />
+      <div className="profile-container">
+        <h2>Mi Perfil</h2>
 
-      {/* Información del Usuario */}
-      <div className="user-info">
-        <h3>Información Personal</h3>
-        <p><strong>Nombre de usuario:</strong> {userData.username}</p>
-        <p><strong>Email:</strong> {userData.email}</p>
-        <p><strong>Nombre:</strong> {userData.first_name} {userData.last_name}</p>
-      </div>
+        {/* Información del Usuario */}
+        <div className="user-info">
+          <h3>Información Personal</h3>
+          <p><strong>Nombre de usuario:</strong> {userData.username}</p>
+          <p><strong>Email:</strong> {userData.email}</p>
+          <p><strong>Nombre:</strong> {userData.first_name} {userData.last_name}</p>
+        </div>
 
-      {/* Carrito de Compras */}
-      <div className="user-carrito">
-        <h3>Mi Carrito</h3>
-        <Carrito />
-      </div>
+        {/* Carrito de Compras */}
+        <div className="user-carrito">
+          <h3>Mi Carrito</h3>
+          <Carrito />
+        </div>
 
-      {/* Historial de Compras (futura implementación) */}
-      <div className="user-historial">
-        <h3>Historial de Compras</h3>
-        <p>Próximamente...</p>
+        {/* Historial de Compras (futura implementación) */}
+        <div className="user-historial">
+          <h3>Historial de Compras</h3>
+          <p>Próximamente...</p>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
