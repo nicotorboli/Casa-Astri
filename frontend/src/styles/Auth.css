@@ -1,0 +1,69 @@
+/* Auth.css */
+
+/* Contenedor general para formularios (login y register) */
+.auth-container {
+    max-width: 500px;
+    margin: 80px auto; /* Espacio superior para compensar un navbar fijo */
+    padding: 20px;
+    background-color: #ffffff; /* Fondo blanco, similar a Profile */
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Títulos */
+  .auth-container h2 {
+    text-align: center;
+    color: #123456; /* Color temático principal */
+    margin-bottom: 30px;
+  }
+  
+  /* Formulario */
+  .auth-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Labels */
+  .auth-container label {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  /* Inputs */
+  .auth-container input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .auth-container input:focus {
+    border-color: #123456;
+    box-shadow: 0 0 8px rgba(18, 52, 86, 0.3);
+    outline: none;
+  }
+  
+  /* Botón */
+  .auth-container button {
+    padding: 12px 20px;
+    background-color: #123456;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .auth-container button:hover {
+    background-color: #0f2a5a;
+  }
+  
+  /* Mensajes de error */
+  .auth-container .error-message {
+    text-align: center;
+    color: red;
+  }

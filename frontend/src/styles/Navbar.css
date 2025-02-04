@@ -15,27 +15,50 @@
     box-sizing: border-box;
   }
   
-  .navbar-brand h1 {
-    font-size: 1.5rem;
-    color: white;
-  }
-  
-  .navbar-links {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .navbar-links .btn {
-    background-color: #555;
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 0.9rem;
-    cursor: pointer;
-  }
-  
-  .navbar-links .btn:hover {
-    background-color: #777;
-  }
+
+/* Estilo para el logo "Casa Astri" convertido en enlace */
+.navbar-brand .brand-link {
+  text-decoration: none;
+  color: white;
+}
+
+.navbar-brand h1 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+/* Estilo para los enlaces del navbar */
+.navbar-links {
+  display: flex;
+  gap: 10px;
+}
+
+/* Enlace "Home" u otros enlaces simples */
+.navbar-links .nav-link {
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  align-self: center;
+  transition: color 0.3s ease;
+}
+
+.navbar-links .nav-link:hover {
+  color: #ccc;
+}
+
+/* Estilos para los botones (Login, Register, etc.) */
+.navbar-links .btn {
+  background-color: #555;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-links .btn:hover {
+  background-color: #777;
+}

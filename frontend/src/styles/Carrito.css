@@ -35,3 +35,18 @@
 .add-to-cart-btn:hover {
   background-color: #218838;
 }
+
+.pagar-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.pagar-btn:hover {
+  background-color: #218838;
+}

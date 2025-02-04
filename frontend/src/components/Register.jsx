@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; 
+import "../styles/Auth.css"; // Asegúrate de importar el CSS
 
 const Register = () => {
   const [username, setUsername] = useState("");

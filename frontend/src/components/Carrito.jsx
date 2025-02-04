@@ -29,6 +29,40 @@ const Carrito = () => {
     }
   }, [user]);
 
+  const handleEliminarProducto = async (itemId) => {
+    try {
+      await axios.delete(`http://localhost:8000/api/catalogo/carrito/remove/${itemId}/`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        },
+      });
+      // Recargar el carrito después de eliminar el producto
+      const response = await axios.get('http://localhost:8000/api/catalogo/carrito/', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        },
+      });
+      setCarrito(response.data);
+    } catch (error) {
+      console.error('Error al eliminar el producto:', error);
+    }
+  };
+
+  const handlePagar = async () => {
+    try {
+      await axios.post('http://localhost:8000/api/catalogo/carrito/pagar/', {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        },
+      });
+      alert('Pago procesado exitosamente');
+      setCarrito({ ...carrito, items: [] }); // Vaciar el carrito después del pago
+    } catch (error) {
+      console.error('Error al procesar el pago:', error);
+      alert('Error al procesar el pago');
+    }
+  };
+
   if (!user) {
     return <p>Debes iniciar sesión para ver tu carrito.</p>;
   }
@@ -47,9 +81,15 @@ const Carrito = () => {
           {carrito.items.map((item) => (
             <li key={item.producto.id}>
               {item.producto.nombre} - {item.cantidad} x ${item.precio_unitario}
+              <button onClick={() => handleEliminarProducto(item.id)}>Eliminar</button>
             </li>
           ))}
         </ul>
+      )}
+      {carrito.items.length > 0 && (
+        <button onClick={handlePagar} className="pagar-btn">
+          Pagar
+        </button>
       )}
     </div>
   );

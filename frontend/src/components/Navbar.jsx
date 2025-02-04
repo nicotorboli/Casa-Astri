@@ -9,31 +9,39 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        <h1>Casa Astri</h1>
+        {/* Al hacer clic en "Casa Astri" se redirige a Home */}
+        <Link to="/" className="brand-link">
+          <h1>Casa Astri</h1>
+        </Link>
       </div>
       <div className="navbar-links">
-        {!user ? (
+        {/* Enlace a Home */}
+        <Link to="/" className="nav-link">
+          Home
+        </Link>
+        {user ? (
           <>
-            <Link to="/login" className="btn login-btn">
-              Login
+            <Link to="/profile" className="nav-link">
+              Mi Perfil
             </Link>
-            <Link to="/register" className="btn register-btn">
-              Register
-            </Link>
+            <span onClick={logout} className="nav-link" style={{ cursor: 'pointer' }}>
+              Logout
+            </span>
           </>
         ) : (
           <>
-            <Link to="/profile" className="btn profile-btn">
-              Mi Perfil
+            <Link to="/login" className="nav-link">
+              Login
             </Link>
-            <button onClick={logout} className="btn logout-btn">
-              Logout
-            </button>
+            <Link to="/register" className="nav-link">
+              Register
+            </Link>
           </>
         )}
       </div>
     </nav>
   );
 };
+
 
 export default Navbar;

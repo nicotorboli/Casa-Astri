@@ -89,12 +89,30 @@ class AddToCarritoView(APIView):
 
 
 class RemoveFromCarritoView(APIView):
-    permission_classes = [IsAuthenticated]  # Solo usuarios autenticados
-
     def delete(self, request, item_id):
         try:
-            item = ItemCarrito.objects.get(id=item_id, carrito__user=request.user)
+            if request.user.is_authenticated:
+                item = ItemCarrito.objects.get(id=item_id, carrito__user=request.user)
+            else:
+                session_key = request.session.session_key
+                if not session_key:
+                    return Response({"message": "Sesión no válida."}, status=status.HTTP_400_BAD_REQUEST)
+                item = ItemCarrito.objects.get(id=item_id, carrito__session_key=session_key)
             item.delete()
             return Response({"message": "Producto eliminado del carrito"}, status=status.HTTP_200_OK)
         except ItemCarrito.DoesNotExist:
             return Response({"message": "El producto no se encuentra en tu carrito."}, status=status.HTTP_404_NOT_FOUND)
+        
+
+class ProcesarPagoView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            carrito = Carrito.objects.get(user=request.user)
+            # Aquí iría la lógica para procesar el pago
+            # Por ahora, simplemente vaciamos el carrito
+            carrito.productos.clear()
+            return Response({"message": "Pago procesado exitosamente"}, status=status.HTTP_200_OK)
+        except Carrito.DoesNotExist:
+            return Response({"message": "No tienes un carrito activo."}, status=status.HTTP_404_NOT_FOUND)
