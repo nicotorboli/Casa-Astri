@@ -10,39 +10,46 @@ const Carrito = () => {
 
   useEffect(() => {
     if (user) {
-      const fetchCarrito = async () => {
-        try {
-          const response = await axios.get('http://localhost:8000/api/catalogo/carrito/', {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-            },
-          });
-          setCarrito(response.data);
-        } catch (error) {
-          console.error('Error al obtener el carrito:', error);
-        } finally {
-          setLoading(false);
-        }
-      };
-
       fetchCarrito();
     }
   }, [user]);
 
-  const handleEliminarProducto = async (itemId) => {
+  const fetchCarrito = async () => {
     try {
-      await axios.delete(`http://localhost:8000/api/catalogo/carrito/remove/${itemId}/`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        },
-      });
-      // Recargar el carrito después de eliminar el producto
       const response = await axios.get('http://localhost:8000/api/catalogo/carrito/', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
       });
       setCarrito(response.data);
+    } catch (error) {
+      console.error('Error al obtener el carrito:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEliminarUno = async (itemId) => {
+    try {
+      await axios.post(`http://localhost:8000/api/catalogo/carrito/remove_one/${itemId}/`, {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        },
+      });
+      fetchCarrito(); // Recargar el carrito
+    } catch (error) {
+      console.error('Error al eliminar una unidad del producto:', error);
+    }
+  };
+
+  const handleEliminarTodo = async (itemId) => {
+    try {
+      await axios.delete(`http://localhost:8000/api/catalogo/carrito/remove/${itemId}/`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        },
+      });
+      fetchCarrito(); // Recargar el carrito
     } catch (error) {
       console.error('Error al eliminar el producto:', error);
     }
@@ -71,6 +78,10 @@ const Carrito = () => {
     return <p>Cargando carrito...</p>;
   }
 
+  const calcularTotal = () => {
+    return carrito.items.reduce((total, item) => total + item.cantidad * item.precio_unitario, 0).toFixed(2);
+  };
+
   return (
     <div className="carrito-container">
       <h2>Tu Carrito</h2>
@@ -81,16 +92,20 @@ const Carrito = () => {
           {carrito.items.map((item) => (
             <li key={item.producto.id}>
               {item.producto.nombre} - {item.cantidad} x ${item.precio_unitario}
-              <button onClick={() => handleEliminarProducto(item.id)}>Eliminar</button>
+              <button onClick={() => handleEliminarUno(item.id)}>Eliminar uno</button>
+              <button onClick={() => handleEliminarTodo(item.id)}>Eliminar todo</button>
             </li>
           ))}
         </ul>
       )}
       {carrito.items.length > 0 && (
-        <button onClick={handlePagar} className="pagar-btn">
-          Pagar
-        </button>
-      )}
+  <div className="carrito-footer">
+    <button onClick={handlePagar} className="pagar-btn">
+      Pagar
+    </button>
+    <h3>Total: ${calcularTotal()}</h3>
+  </div>
+)}
     </div>
   );
 };

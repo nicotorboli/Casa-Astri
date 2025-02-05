@@ -22,20 +22,17 @@
   align-items: center;
 }
 
-.add-to-cart-btn {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+/* Contenedor de pago y total */
+/* Contenedor del total y el botón de pago */
+.carrito-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  width: 100%;
 }
 
-.add-to-cart-btn:hover {
-  background-color: #218838;
-}
-
+/* Botón de pagar alineado a la izquierda */
 .pagar-btn {
   background-color: #28a745;
   color: white;
@@ -44,9 +41,14 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-top: 20px;
+  font-size: 1rem;
 }
 
 .pagar-btn:hover {
   background-color: #218838;
+}
+
+.carrito-footer h3 {
+  margin: 0;
+
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate, Link } from "react-router-dom"; // Importar Link
 import "../styles/Auth.css"; // Asegúrate de importar el CSS
 
 const Register = () => {
@@ -8,61 +8,42 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
-
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post("http://localhost:8000/api/users/register/", {
-        username,
-        password,
-        email,
-      });
-
-      if (response.status === 201) {
-        // Si el registro es exitoso, redirige al login
-        navigate("/login");  
-      }
+      const response = await axios.post("http://localhost:8000/api/users/register/", { username, password, email });
+      if (response.status === 201) navigate("/login");
     } catch (error) {
-      // Aquí capturamos el error si el usuario ya está registrado
-      if (error.response?.status === 400 && error.response?.data?.message === 'Usuario ya registrado') {
-        setError("El usuario ya está registrado. Por favor, inicia sesión.");
-      } else {
-        setError("Error al registrar: " + (error.response?.data?.message || "Error desconocido"));
-      }
+      setError(error.response?.data?.message || "Error desconocido");
     }
   };
 
   return (
-    <div>
-      <h2>Registrar</h2>
+    <div className="auth-container">
+      <h2>Registro</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="form-group">
+          <label>Username:</label>
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+        </div>
+        <div className="form-group">
+          <label>Email:</label>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        </div>
+        <div className="form-group">
+          <label>Password:</label>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        </div>
         <button type="submit">Registrar</button>
       </form>
+      {error && <p className="error-message">{error}</p>}
 
-      {error && <p>{error}</p>}
+      {/* Enlace al login */}
+      <p>¿Ya tienes cuenta? <Link to="/login">Inicia sesión aquí</Link></p>
     </div>
   );
 };
 
-export default Register
+export default Register;
