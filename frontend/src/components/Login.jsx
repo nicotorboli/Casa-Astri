@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
-import "../styles/Auth.css"; // Asegúrate de importar el CSS
+import "../styles/Auth.css";
 
 const Login = () => {
   const { login } = useAuth();
@@ -29,9 +29,18 @@ const Login = () => {
     }
   };
 
+  const handleClose = () => {
+    navigate("/");
+  };
+
   return (
     <div className="auth-container">
-      <h2>Login</h2>
+      <div className="auth-header">
+        <h2>Login</h2>
+        <button className="close-button" onClick={handleClose}>
+          Cerrar
+        </button>
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Username:</label>

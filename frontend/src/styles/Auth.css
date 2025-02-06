@@ -1,4 +1,3 @@
-
 /* Contenedor de autenticación */
 .auth-container {
   margin: 5% auto;
@@ -10,11 +9,43 @@
   text-align: center;
 }
 
-/* Títulos */
-.auth-container h2 {
+
+/* Encabezado de autenticación */
+.auth-header {
+  display: flex;
+  justify-content: center; /* Centra el h2 */
+  align-items: center; /* Centra verticalmente */
   margin-bottom: 1.5rem;
+  position: relative; /* Necesario para posicionar el h2 */
+}
+
+.auth-header h2 {
+  margin: 0;
   font-size: 1.8rem;
   font-weight: 500;
+  text-align: center; /* Centra el texto del título */
+  position: absolute; /* Posicionamiento absoluto para el h2 */
+  left: 50%; /* Lo mueve al 50% del contenedor */
+  transform: translateX(-50%); /* Ajusta el centrado */
+}
+
+/* Botón de Cerrar */
+.auth-container button.close-button {
+  width: 10%;
+  margin-left: auto; /* Empuja el botón a la derecha */
+  background: #007bff;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-container button.close-button:hover {
+  background: #0056b3;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Grupos de formulario */
@@ -93,5 +124,5 @@
 .register-link a:hover,
 .auth-container p a:hover {
   text-decoration: underline;
-  color: #0056b3;
+  color: #0056b3; /* Color corregido */
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom"; // Importar Link
-import "../styles/Auth.css"; // Asegúrate de importar el CSS
+import { useNavigate, Link } from "react-router-dom";
+import "../styles/Auth.css";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -20,9 +20,18 @@ const Register = () => {
     }
   };
 
+  const handleClose = () => {
+    navigate("/");
+  };
+
   return (
     <div className="auth-container">
-      <h2>Registro</h2>
+      <div className="auth-header">
+        <h2>Registro</h2>
+        <button className="close-button" onClick={handleClose}>
+          Cerrar
+        </button>
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Username:</label>
@@ -40,7 +49,6 @@ const Register = () => {
       </form>
       {error && <p className="error-message">{error}</p>}
 
-      {/* Enlace al login */}
       <p>¿Ya tienes cuenta? <Link to="/login">Inicia sesión aquí</Link></p>
     </div>
   );
