@@ -1,12 +1,13 @@
 .footer-container {
-  background-color: #333; /* Fondo oscuro */
+  background-color: #777; /* Fondo oscuro */
   color: white;
   padding: 20px 0;
-  border-top: 3px solid #555;
+  border-top: 1px solid #555;
   margin-top: auto; /* Asegura que esté al final de la página */
 }
 
 .footer-content {
+  background-color: #7c2c3c; /* Fondo oscuro */
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
