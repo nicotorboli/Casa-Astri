@@ -40,6 +40,12 @@ const ProductoCard = ({ producto }) => {
 
   return (
     <div className="producto-card">
+      {/* Aquí se muestra la imagen */}
+      {producto.imagen_url ? (
+        <img src={producto.imagen_url} alt={producto.nombre} className="producto-imagen" />
+      ) : (
+        <p>Imagen no disponible</p>
+      )}
       <h3>{producto.nombre}</h3>
       <p>Categoría: {producto.categoria.nombre}</p>
       <p>Precio: ${producto.precio}</p>

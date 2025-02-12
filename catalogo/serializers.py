@@ -8,11 +8,17 @@ class CategoriaSerializer(serializers.ModelSerializer):
 
 class ProductoSerializer(serializers.ModelSerializer):
     categoria = CategoriaSerializer()
+    imagen_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Producto
-        fields = ['id', 'nombre', 'categoria', 'precio']
-
+        fields = ['id', 'nombre', 'categoria', 'precio','imagen_url']
+        
+    def get_imagen_url(self, obj):
+        request = self.context.get('request')
+        if obj.imagen:
+            return request.build_absolute_uri(obj.imagen.url)
+        return None
 
 class ItemCarritoSerializer(serializers.ModelSerializer):
     producto = serializers.StringRelatedField()

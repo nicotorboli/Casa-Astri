@@ -85,6 +85,14 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
+.producto-imagen {
+  width: 100%;
+  height: 200px;
+  object-fit: cover; /* Para mantener la proporción */
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
 /* Botón en ProductCard (añadir al carrito) */
 .add-to-cart-btn {
   padding: 12px 20px;
@@ -97,7 +105,7 @@
 }
 
 .add-to-cart-btn:hover {
-  background-color: #0f2a5a;
+  background-color: #8c2f39;
 }
 
 /* Paginación */
@@ -107,33 +115,77 @@
   align-items: center;
   gap: 20px;
   margin-top: 40px;
+  transition: transform 0.3s ease;
 }
 
+/* Botones de paginación */
 .paginacion-btn {
-  padding: 12px 24px;
-  background-color: #123456;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 25px; /* Aumento en el tamaño del botón para mejor clicabilidad */
+  background-color: #8c2f39; /* Cambiar a un azul más brillante */
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 50px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background-color 0.3s ease;
+  font-weight: 600; /* Más estilo en la fuente */
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra más difusa */
 }
 
+/* Efecto de hover */
 .paginacion-btn:hover {
-  background-color: #0f2a5a;
+  background-color: #461220; /* Un azul más oscuro */
+  transform: translateY(-4px); /* Efecto de elevación */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Sombra al pasar el ratón */
 }
 
+/* Efecto cuando está deshabilitado */
 .paginacion-btn:disabled {
-  background-color: #e0e0e0;
+  background-color: #cccccc;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
+/* Iconos dentro de los botones */
+.paginacion-icon {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+/* Animación de los iconos al pasar el ratón */
+.paginacion-btn:hover .paginacion-icon {
+  transform: scale(1.3); /* Más grande el icono */
+}
+
+/* Icono cuando el botón está deshabilitado */
+.paginacion-btn:disabled .paginacion-icon {
+  opacity: 0.5;
+}
+
+/* Número de página */
 .paginacion-pagina {
-  font-weight: bold;
+  font-weight: 600;
   color: #123456;
   font-size: 1.2rem;
+  padding: 0 10px;
 }
+
+/* Flechas de paginación con animación de Lottie */
+.arrow-animation {
+  width: 20px; /* Ajuste el tamaño de la animación */
+  height: 20px;
+  transition: transform 0.3s ease;
+  object-fit: contain;
+}
+
+
+
 
 /* Estilos responsivos */
 @media (max-width: 768px) {
@@ -144,5 +196,17 @@
 
   .catalogo-productos {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .catalogo-paginacion {
+    gap: 15px; /* Menor espacio en pantallas pequeñas */
+  }
+
+  .paginacion-btn {
+    padding: 10px 20px;
+  }
+
+  .paginacion-pagina {
+    font-size: 1rem;
   }
 }

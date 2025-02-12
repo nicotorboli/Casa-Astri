@@ -1,8 +1,8 @@
 .footer-container {
-  background-color: #777; /* Fondo oscuro */
+  background-color: #7c2c3c; /* Fondo oscuro */
   color: white;
-  padding: 20px 0;
-  border-top: 1px solid #555;
+  padding: 0px;
+  border-top: 2px solid #555;
   margin-top: auto; /* Asegura que esté al final de la página */
 }
 
@@ -39,10 +39,10 @@
 }
 
 .footer-bottom {
+  background-color: #777; /* Fondo oscuro */
   text-align: center;
   padding: 10px 0;
-  border-top: 1px solid #555;
-  margin-top: 20px;
+  border-top: 2px solid #555;
 }
 
 .footer-bottom p {
