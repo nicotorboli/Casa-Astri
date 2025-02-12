@@ -22,20 +22,19 @@ class ProductoPagination(PageNumberPagination):
 class ProductoListView(generics.ListAPIView):
     queryset = Producto.objects.all()
     serializer_class = ProductoSerializer
-    pagination_class = ProductoPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['categoria']
     search_fields = ['nombre']
 
+    # Desactiva la paginación
+    pagination_class = None
+
     def list(self, request, *args, **kwargs):
-        # Obtén la respuesta paginada automáticamente
-        response = super().list(request, *args, **kwargs)
-        
-        # Si necesitas añadir información adicional como el total de páginas
-        response.data['total_pages'] = self.paginator.page.paginator.num_pages
-
-        return response
-
+        # Obtén todos los productos filtrados
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)  # Devuelve todos los productos sin paginación
+    
 class CategoriaListView(generics.ListAPIView):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer

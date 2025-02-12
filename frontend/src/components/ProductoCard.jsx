@@ -47,7 +47,7 @@ const ProductoCard = ({ producto }) => {
         <p>Imagen no disponible</p>
       )}
       <h3>{producto.nombre}</h3>
-      <p>Categoría: {producto.categoria.nombre}</p>
+    {/*<p>Categoría: {producto.categoria.nombre}</p>*/}
       <p>Precio: ${producto.precio}</p>
       <button onClick={handleAddToCart} className="add-to-cart-btn">
         Añadir al carrito

@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
 import "../styles/Auth.css";
+import Lottie from "lottie-react";
+import Circle from "../assets/icons/Circle-error_custom_icon.json";
 
 const Login = () => {
   const { login } = useAuth();
@@ -37,9 +39,7 @@ const Login = () => {
     <div className="auth-container">
       <div className="auth-header">
         <h2>Login</h2>
-        <button className="close-button" onClick={handleClose}>
-          Cerrar
-        </button>
+        <Lottie animationData={Circle} className="close-button" onClick={handleClose} />
       </div>
       <form onSubmit={handleSubmit}>
         <div className="form-group">

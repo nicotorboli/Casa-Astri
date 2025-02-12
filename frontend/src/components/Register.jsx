@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/Auth.css";
+import Lottie from "lottie-react";
+import Circle from "../assets/icons/Circle-error_custom_icon.json";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -28,9 +30,7 @@ const Register = () => {
     <div className="auth-container">
       <div className="auth-header">
         <h2>Registro</h2>
-        <button className="close-button" onClick={handleClose}>
-          Cerrar
-        </button>
+        <Lottie animationData={Circle} className="close-button" onClick={handleClose} />
       </div>
       <form onSubmit={handleSubmit}>
         <div className="form-group">

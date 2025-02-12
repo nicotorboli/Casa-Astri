@@ -20,7 +20,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   flex-wrap: nowrap;
 }
 
@@ -65,7 +65,7 @@
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 30px;
   flex-grow: 1;
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 /* Estilo de tarjeta de producto */

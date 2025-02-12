@@ -143,6 +143,8 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend',
     ],
+    'DEFAULT_PAGINATION_CLASS': None,  # Desactiva la paginación global
+    'PAGE_SIZE': None,  # Asegúrate de que no haya un tamaño de página predeterminado
 }
 
 SIMPLE_JWT = {
