@@ -9,21 +9,67 @@
   margin-bottom: 20px;
 }
 
+/* Cabecera de la lista */
+.cabecera-carrito {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #ddd;
+  font-weight: bold;
+}
+
+.cabecera-carrito .columna-producto {
+  flex: 2;
+}
+
+.cabecera-carrito .columna-precio {
+  flex: 1;
+  text-align: right;
+}
+
+.cabecera-carrito .columna-acciones {
+  flex: 1;
+  text-align: center;
+}
+
+/* Lista de productos */
 .carrito-container ul {
   list-style: none;
   padding: 0;
 }
 
 .carrito-container li {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
 }
 
-/* Contenedor de pago y total */
-/* Contenedor del total y el botón de pago */
+.carrito-container li .columna-producto {
+  flex: 2;
+}
+
+.carrito-container li .columna-precio {
+  flex: 1;
+  text-align: right;
+}
+
+.carrito-container li .columna-acciones {
+  flex: 1;
+  text-align: center;
+}
+
+/* Iconos de Lottie */
+.lottie-icon {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  margin: 0 auto; /* Centrar horizontalmente */
+}
+
+/* Pie de página del carrito */
 .carrito-footer {
   display: flex;
   justify-content: space-between;
@@ -32,7 +78,6 @@
   width: 100%;
 }
 
-/* Botón de pagar alineado a la izquierda */
 .pagar-btn {
   background-color: #28a745;
   color: white;
@@ -50,5 +95,4 @@
 
 .carrito-footer h3 {
   margin: 0;
-
 }

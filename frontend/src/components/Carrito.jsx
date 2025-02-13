@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
+import Lottie from 'lottie-react';
+import eliminarUnoAnimation from '../assets/icons/Bin-bounce_custom_icon.json'; // Ruta a tu animación de "Eliminar uno"
+import eliminarTodoAnimation from '../assets/icons/Bin-side-open_custom_icon.json'; // Ruta a tu animación de "Eliminar todo"
 import '../styles/Carrito.css';
 
 const Carrito = () => {
@@ -88,24 +91,50 @@ const Carrito = () => {
       {carrito.items.length === 0 ? (
         <p>No hay productos en tu carrito.</p>
       ) : (
-        <ul>
-          {carrito.items.map((item) => (
-            <li key={item.producto.id}>
-              {item.producto.nombre} - {item.cantidad} x ${item.precio_unitario}
-              <button onClick={() => handleEliminarUno(item.id)}>Eliminar uno</button>
-              <button onClick={() => handleEliminarTodo(item.id)}>Eliminar todo</button>
-            </li>
-          ))}
-        </ul>
+        <>
+          {/* Cabecera de la lista */}
+          <div className="cabecera-carrito">
+            <span className="columna-producto">Producto</span>
+            <span className="columna-precio">Precio</span>
+            <span className="columna-acciones">Eliminar uno</span>
+            <span className="columna-acciones">Eliminar todo</span>
+          </div>
+
+          {/* Lista de productos */}
+          <ul>
+            {carrito.items.map((item) => (
+              <li key={item.producto.id}>
+                <span className="columna-producto">{item.producto.nombre} (x{item.cantidad})</span>
+                <span className="columna-precio">${item.precio_unitario * item.cantidad}</span>
+                <span className="columna-acciones">
+                  <Lottie
+                    animationData={eliminarUnoAnimation}
+                    loop={true}
+                    onClick={() => handleEliminarUno(item.id)}
+                    className="lottie-icon"
+                  />
+                </span>
+                <span className="columna-acciones">
+                  <Lottie
+                    animationData={eliminarTodoAnimation}
+                    loop={true}
+                    onClick={() => handleEliminarTodo(item.id)}
+                    className="lottie-icon"
+                  />
+                </span>
+              </li>
+            ))}
+          </ul>
+        </>
       )}
       {carrito.items.length > 0 && (
-  <div className="carrito-footer">
-    <button onClick={handlePagar} className="pagar-btn">
-      Pagar
-    </button>
-    <h3>Total: ${calcularTotal()}</h3>
-  </div>
-)}
+        <div className="carrito-footer">
+          <button onClick={handlePagar} className="pagar-btn">
+            Pagar
+          </button>
+          <h3>Total: ${calcularTotal()}</h3>
+        </div>
+      )}
     </div>
   );
 };
