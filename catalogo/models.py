@@ -12,7 +12,8 @@ class Producto(models.Model):
     nombre = models.CharField(max_length=200)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     precio = models.DecimalField(max_digits=10, decimal_places=2)
-    imagen = models.ImageField(upload_to='productos/', blank=True, null=True)  # Campo para imágenes
+    imagen = models.ImageField(upload_to='productos/', blank=True, null=True)
+    stock = models.PositiveIntegerField(default=0)  # Nuevo campo para el stock
 
     def __str__(self):
         return self.nombre

@@ -5,7 +5,6 @@ import Paginacion from './Paginacion';
 import ProductoCard from './ProductoCard';
 import '../styles/Catalogo.css';
 
-
 const Catalogo = () => {
   const [productos, setProductos] = useState([]); // Todos los productos
   const [categorias, setCategorias] = useState([]);
@@ -46,6 +45,32 @@ const Catalogo = () => {
     fetchCategorias();
   }, []);
 
+  // Función para agregar un producto al carrito
+  const agregarAlCarrito = async (productoId) => {
+    try {
+      const response = await Axios.post(
+        'http://localhost:8000/api/catalogo/carrito/add/',
+        { producto_id: productoId, cantidad: 1 },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          },
+        }
+      );
+  
+      if (response.status === 200) {
+        alert('Producto agregado al carrito');
+        // No actualizamos el stock en el frontend
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        alert(error.response.data.message); // Mostrar mensaje de error si no hay suficiente stock
+      } else {
+        console.error('Error al agregar al carrito:', error);
+      }
+    }
+  };
+
   // Filtrar productos por categoría y nombre
   const productosFiltrados = productos.filter((producto) => {
     const coincideCategoria = categoriaSeleccionada ? producto.categoria.id == categoriaSeleccionada : true;
@@ -78,7 +103,11 @@ const Catalogo = () => {
           <p>Cargando productos...</p>
         ) : productosPaginaActual.length > 0 ? (
           productosPaginaActual.map((producto) => (
-            <ProductoCard key={producto.id} producto={producto} />
+            <ProductoCard
+              key={producto.id}
+              producto={producto}
+              agregarAlCarrito={agregarAlCarrito}
+            />
           ))
         ) : (
           <p>No hay productos que coincidan con los filtros.</p>

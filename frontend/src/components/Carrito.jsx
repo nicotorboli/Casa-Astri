@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import Lottie from 'lottie-react';
-import eliminarUnoAnimation from '../assets/icons/Bin-bounce_custom_icon.json'; // Ruta a tu animación de "Eliminar uno"
 import eliminarTodoAnimation from '../assets/icons/Bin-side-open_custom_icon.json'; // Ruta a tu animación de "Eliminar todo"
 import '../styles/Carrito.css';
 
@@ -17,6 +16,7 @@ const Carrito = () => {
     }
   }, [user]);
 
+  // Obtener el carrito del backend
   const fetchCarrito = async () => {
     try {
       const response = await axios.get('http://localhost:8000/api/catalogo/carrito/', {
@@ -32,45 +32,76 @@ const Carrito = () => {
     }
   };
 
-  const handleEliminarUno = async (itemId) => {
+  // Aumentar la cantidad de un producto en el carrito
+  const aumentarCantidad = async (itemId, productoId) => {
     try {
-      await axios.post(`http://localhost:8000/api/catalogo/carrito/remove_one/${itemId}/`, {}, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        },
-      });
-      fetchCarrito(); // Recargar el carrito
+      const response = await axios.post(
+        `http://localhost:8000/api/catalogo/carrito/add/`,  // URL completa
+        { producto_id: productoId, cantidad: 1 },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          },
+        }
+      );
+  
+      if (response.status === 200) {
+        fetchCarrito(); // Recargar el carrito
+      }
     } catch (error) {
-      console.error('Error al eliminar una unidad del producto:', error);
+      console.error('Error al aumentar la cantidad:', error);
+      alert(error.response?.data?.message || 'Error al aumentar la cantidad');
+    }
+  };
+  
+
+  // Disminuir la cantidad de un producto en el carrito
+  const disminuirCantidad = async (itemId, productoId) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8000/api/catalogo/carrito/remove_one/${itemId}/`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        fetchCarrito(); // Recargar el carrito
+      }
+    } catch (error) {
+      console.error('Error al disminuir la cantidad:', error);
+      alert(error.response?.data?.message || 'Error al disminuir la cantidad');
     }
   };
 
-  const handleEliminarTodo = async (itemId) => {
+  // Eliminar un producto del carrito
+  const eliminarProducto = async (itemId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/catalogo/carrito/remove/${itemId}/`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        },
-      });
-      fetchCarrito(); // Recargar el carrito
+      const response = await axios.delete(
+        `http://localhost:8000/api/catalogo/carrito/remove/${itemId}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        fetchCarrito(); // Recargar el carrito
+      }
     } catch (error) {
       console.error('Error al eliminar el producto:', error);
+      alert('Error al eliminar el producto');
     }
   };
 
-  const handlePagar = async () => {
-    try {
-      await axios.post('http://localhost:8000/api/catalogo/carrito/pagar/', {}, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        },
-      });
-      alert('Pago procesado exitosamente');
-      setCarrito({ ...carrito, items: [] }); // Vaciar el carrito después del pago
-    } catch (error) {
-      console.error('Error al procesar el pago:', error);
-      alert('Error al procesar el pago');
-    }
+  // Calcular el total del carrito
+  const calcularTotalCarrito = () => {
+    if (!carrito || !carrito.items) return 0;
+    return carrito.items.reduce((total, item) => total + item.cantidad * item.precio_unitario, 0).toFixed(2);
   };
 
   if (!user) {
@@ -81,10 +112,6 @@ const Carrito = () => {
     return <p>Cargando carrito...</p>;
   }
 
-  const calcularTotal = () => {
-    return carrito.items.reduce((total, item) => total + item.cantidad * item.precio_unitario, 0).toFixed(2);
-  };
-
   return (
     <div className="carrito-container">
       <h2>Tu Carrito</h2>
@@ -92,48 +119,71 @@ const Carrito = () => {
         <p>No hay productos en tu carrito.</p>
       ) : (
         <>
-          {/* Cabecera de la lista */}
+          {/* Cabecera de la tabla */}
           <div className="cabecera-carrito">
             <span className="columna-producto">Producto</span>
             <span className="columna-precio">Precio</span>
-            <span className="columna-acciones">Eliminar uno</span>
-            <span className="columna-acciones">Eliminar todo</span>
+            <span className="columna-cantidad">Cantidad</span>
+            <span className="columna-total">Total</span>
+            <span className="columna-acciones">Eliminar</span>
           </div>
 
           {/* Lista de productos */}
           <ul>
             {carrito.items.map((item) => (
-              <li key={item.producto.id}>
-                <span className="columna-producto">{item.producto.nombre} (x{item.cantidad})</span>
-                <span className="columna-precio">${item.precio_unitario * item.cantidad}</span>
-                <span className="columna-acciones">
-                  <Lottie
-                    animationData={eliminarUnoAnimation}
-                    loop={true}
-                    onClick={() => handleEliminarUno(item.id)}
-                    className="lottie-icon"
-                  />
-                </span>
-                <span className="columna-acciones">
+              <li key={item.id} className="fila-producto">
+                {/* Columna Producto */}
+                <div className="columna-producto">
+                  {item.producto.imagen_url && (
+                    <img src={item.producto.imagen_url} alt={item.producto.nombre} className="producto-imagen" />
+                  )}
+                  <span>{item.producto.nombre}</span>
+                </div>
+
+                {/* Columna Precio */}
+                <div className="columna-precio">${item.precio_unitario}</div>
+
+                {/* Columna Cantidad */}
+                <div className="columna-cantidad">
+                  <button
+                    onClick={() => disminuirCantidad(item.id, item.producto.id)}
+                    disabled={item.cantidad <= 1}
+                  >
+                    -
+                  </button>
+                  <span>{item.cantidad}</span>
+                  <button
+                    onClick={() => aumentarCantidad(item.id, item.producto.id)}
+                    disabled={item.cantidad >= item.producto.stock}
+                  >
+                    +
+                  </button>
+                </div>
+
+                {/* Columna Total */}
+                <div className="columna-total">${(item.cantidad * item.precio_unitario).toFixed(2)}</div>
+
+                {/* Columna Eliminar */}
+                <div className="columna-acciones">
                   <Lottie
                     animationData={eliminarTodoAnimation}
                     loop={true}
-                    onClick={() => handleEliminarTodo(item.id)}
+                    onClick={() => eliminarProducto(item.id)}
                     className="lottie-icon"
                   />
-                </span>
+                </div>
               </li>
             ))}
           </ul>
+
+          {/* Total del carrito */}
+          <div className="carrito-footer">
+            <button onClick={() => alert('Pago procesado')} className="pagar-btn">
+              Pagar
+            </button>
+            <h3>Total: ${calcularTotalCarrito()}</h3>
+          </div>
         </>
-      )}
-      {carrito.items.length > 0 && (
-        <div className="carrito-footer">
-          <button onClick={handlePagar} className="pagar-btn">
-            Pagar
-          </button>
-          <h3>Total: ${calcularTotal()}</h3>
-        </div>
       )}
     </div>
   );

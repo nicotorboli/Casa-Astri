@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/users/', include('users.urls')),  # URLs de la app 'users' (registro, login, JWT)
-    path('api/catalogo/', include('catalogo.urls')),  # URLs de la app 'catalogo' (productos, carrito, etc.)
+    path('api/catalogo/', include('catalogo.urls')),  # Incluye las URLs de la app 'catalogo'
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

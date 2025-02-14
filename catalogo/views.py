@@ -52,8 +52,10 @@ class CarritoView(APIView):
                 session_key = request.session.session_key
             carrito, created = Carrito.objects.get_or_create(session_key=session_key, user=None)
         
-        serializer = CarritoSerializer(carrito)
+        serializer = CarritoSerializer(carrito, context={'request': request})  # Pasar el contexto
         return Response(serializer.data)
+
+
 
 class AddToCarritoView(APIView):
     def post(self, request):
@@ -62,6 +64,11 @@ class AddToCarritoView(APIView):
 
         try:
             producto = Producto.objects.get(id=producto_id)
+            
+            # Verificar si hay suficiente stock
+            if producto.stock < cantidad:
+                return Response({"message": "No hay suficiente stock disponible."}, status=status.HTTP_400_BAD_REQUEST)
+
             if request.user.is_authenticated:
                 carrito, created = Carrito.objects.get_or_create(user=request.user)
             else:
@@ -71,6 +78,7 @@ class AddToCarritoView(APIView):
                     session_key = request.session.session_key
                 carrito, created = Carrito.objects.get_or_create(session_key=session_key, user=None)
 
+            # Buscar el ítem en el carrito
             item, created = ItemCarrito.objects.get_or_create(
                 carrito=carrito,
                 producto=producto,
@@ -78,6 +86,9 @@ class AddToCarritoView(APIView):
             )
 
             if not created:
+                # Verificar si hay suficiente stock para la cantidad adicional
+                if producto.stock < item.cantidad + cantidad:
+                    return Response({"message": "No hay suficiente stock disponible."}, status=status.HTTP_400_BAD_REQUEST)
                 item.cantidad += cantidad
                 item.save()
 
@@ -85,7 +96,6 @@ class AddToCarritoView(APIView):
 
         except Producto.DoesNotExist:
             return Response({"message": "Producto no encontrado."}, status=status.HTTP_404_NOT_FOUND)
-
 
 class RemoveFromCarritoView(APIView):
     def delete(self, request, item_id):
@@ -97,6 +107,7 @@ class RemoveFromCarritoView(APIView):
                 if not session_key:
                     return Response({"message": "Sesión no válida."}, status=status.HTTP_400_BAD_REQUEST)
                 item = ItemCarrito.objects.get(id=item_id, carrito__session_key=session_key)
+
             item.delete()
             return Response({"message": "Producto eliminado del carrito"}, status=status.HTTP_200_OK)
         except ItemCarrito.DoesNotExist:
@@ -124,12 +135,25 @@ class RemoveOneFromCarritoView(APIView):
         except ItemCarrito.DoesNotExist:
             return Response({"message": "El producto no se encuentra en tu carrito."}, status=status.HTTP_404_NOT_FOUND)
         
+
 class ProcesarPagoView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
         try:
             carrito = Carrito.objects.get(user=request.user)
+            items = carrito.itemcarrito_set.all()
+
+            # Verificar el stock antes de procesar el pago
+            for item in items:
+                if item.producto.stock < item.cantidad:
+                    return Response({"message": f"No hay suficiente stock para {item.producto.nombre}."}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Reducir el stock después de verificar
+            for item in items:
+                item.producto.stock -= item.cantidad
+                item.producto.save()
+
             # Aquí iría la lógica para procesar el pago
             # Por ahora, simplemente vaciamos el carrito
             carrito.productos.clear()

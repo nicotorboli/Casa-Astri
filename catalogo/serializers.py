@@ -12,7 +12,7 @@ class ProductoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Producto
-        fields = ['id', 'nombre', 'categoria', 'precio','imagen_url']
+        fields = ['id', 'nombre', 'categoria', 'precio', 'imagen_url', 'stock']
         
     def get_imagen_url(self, obj):
         request = self.context.get('request')
@@ -21,7 +21,7 @@ class ProductoSerializer(serializers.ModelSerializer):
         return None
 
 class ItemCarritoSerializer(serializers.ModelSerializer):
-    producto = serializers.StringRelatedField()
+    producto = ProductoSerializer()  # Usar ProductoSerializer en lugar de StringRelatedField
 
     class Meta:
         model = ItemCarrito
